@@ -57,6 +57,8 @@ const textMap = {
   register: '회원가입',
 };
 
+// 에러를 보여줍니다.
+
 const ErrorMessage = styled.div`
   color: red;
   text-align: center;
@@ -65,43 +67,41 @@ const ErrorMessage = styled.div`
 `;
 
 // autoComplete - 자동완성
-const AuthForm = ({ type, form, onChange, onSubmit }) => {
+const AuthForm = ({ type, form, onChange, onSubmit, error }) => {
   const text = textMap[type];
   return (
     <AuthFormBlock>
       <h3>{text}</h3>
       <form onSubmit={onSubmit}>
-        <form>
-          <StyledInput
-            autoComplete="username"
-            name="username"
-            placeholder="아이디"
-            onChange={onChange}
-            value={form.username}
-          />
+        <StyledInput
+          autoComplete="username"
+          name="username"
+          placeholder="아이디"
+          onChange={onChange}
+          value={form.username}
+        />
+        <StyledInput
+          autoComplete="new-password"
+          name="password"
+          placeholder="비밀번호"
+          type="password"
+          onChange={onChange}
+          value={form.password}
+        />
+        {type === 'register' && (
           <StyledInput
             autoComplete="new-password"
-            name="password"
-            placeholder="비밀번호"
+            name="passwordConfirm"
+            placeholder="비밀번호 확인"
             type="password"
             onChange={onChange}
-            value={form.password}
+            value={form.passordConfirm}
           />
-          {type === 'register' && (
-            <StyledInput
-              autoComplete="new-password"
-              name="passwordConfirm"
-              placeholder="비밀번호 확인"
-              type="password"
-              onChange={onChange}
-              value={form.passordConfirm}
-            />
-          )}
-          <ErrorMessage>에러 발생</ErrorMessage>
-          <ButtonWithMarginTop cyan fullWidth style={{ marginTop: '1rem' }}>
-            {text}
-          </ButtonWithMarginTop>
-        </form>
+        )}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+        <ButtonWithMarginTop cyan fullWidth style={{ marginTop: '1rem' }}>
+          {text}
+        </ButtonWithMarginTop>
       </form>
       <Footer>
         {type === 'login' ? (
